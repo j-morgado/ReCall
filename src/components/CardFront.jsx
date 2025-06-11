@@ -1,8 +1,9 @@
-export default function CardFront() {
+export default function CardFront(props) {
   return (
-    <div>
-      <img></img>
-      <h3>Card Front</h3>
+    <div className="card">
+      <h1>{props.content.title}</h1>
+      <img src='https://picsum.photos/id/20/400/300' alt='test image' />
+      <h3>{props.content.question}</h3>
     </div>
   );
 }

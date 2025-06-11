@@ -1,3 +1,36 @@
-html{
-    font-family: sans-serif;
+html {
+  font-family: sans-serif;
+  background-color: #404e5c;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+img {
+  border-radius: 1rem;
+}
+
+.card {
+  width: 40vw;
+  height: 50vh;
+  background-color: #6699cc;
+  padding: 1rem;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: #d6eadf;
+}
+
+.cardArea{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
 }
