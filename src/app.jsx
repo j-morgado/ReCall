@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CardFront from "./components/CardFront";
 import CardBack from "./components/CardBack";
 import NavBar from "./components/NavBar";
+import NewDeck from "./components/NewDeck";
 
 export default () => {
   // Use State Hooks
@@ -12,6 +13,7 @@ export default () => {
   const [content, setContent] = useState(null);
   const [decks, setDecks] = useState([]);
   const [deckName, setDeckName] = useState("");
+  const [newDeck, setnewDeck] = useState({ visibility: "collapse" });
 
   const handleDeckChange = (deckId) => {
     fetchData(deckId);
@@ -64,33 +66,34 @@ export default () => {
     }
   };
 
+  const createNewDeck = () => {
+    if (newDeck.visibility === "visible") {
+      setnewDeck({ visibility: "collapse" });
+    } else {
+      setnewDeck({ visibility: "visible" });
+    }
+  };
+
   // Return
   return (
     <div id="app">
+      <NewDeck id="newDeckPanel" className="popup" style={newDeck}></NewDeck>
       <NavBar decks={decks} onDeckChange={handleDeckChange}></NavBar>
       <div className="cardArea">
-        <div>
-          {cardIndex > 0 ? (
-            <button onClick={prevCard}>Previous</button>
-          ) : (
-            <button style={{ opacity: "0" }}>Previous</button>
-          )}
-        </div>
+        {cardIndex > 0 ? <button onClick={prevCard}>Previous</button> : <button disabled>Previous</button>}
         {content &&
           (card ? (
             <CardFront content={content} deck={deck} cardIndex={cardIndex} deckName={deckName} />
           ) : (
             <CardBack content={content} deck={deck} cardIndex={cardIndex} deckName={deckName} />
           ))}
-        <div>
-          {cardIndex < deck.length - 1 ? (
-            <button onClick={nextCard}>Next</button>
-          ) : (
-            <button style={{ opacity: "0" }}>Next</button>
-          )}
-        </div>
+
+        {cardIndex < deck.length - 1 ? <button onClick={nextCard}>Next</button> : <button disabled>Next</button>}
       </div>
       <button onClick={flipCard}>Flip Flashcard</button>
+      <button id="newDeckBtn" onClick={createNewDeck}>
+        New Deck
+      </button>
     </div>
   );
 };

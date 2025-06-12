@@ -1,7 +1,7 @@
 // Imports
-import 'dotenv/config';
-import { MongoClient, ServerApiVersion } from 'mongodb';
-import express from 'express';
+import "dotenv/config";
+import { MongoClient, ServerApiVersion } from "mongodb";
+import express from "express";
 
 // Setup
 const app = express();
@@ -13,12 +13,14 @@ const client = new MongoClient(uri);
 
 // Handlers
 
-app.use('/', express.static('./dist'));
+app.use(express.json());
 
-app.get('/deckList', (rq, res) => {
+app.use("/", express.static("./dist"));
+
+app.get("/deckList", (rq, res) => {
   (async () => {
-    const db = client.db('ReCall');
-    const collection = db.collection('javascript');
+    const db = client.db("ReCall");
+    const collection = db.collection("javascript");
     await client.connect();
 
     const Search = await db.listCollections().toArray();
@@ -32,11 +34,11 @@ app.get('/deckList', (rq, res) => {
   })();
 });
 
-app.get('/deck/:id', (req, res) => {
+app.get("/deck/:id", (req, res) => {
   let id = req.params.id;
 
   (async () => {
-    const db = client.db('ReCall');
+    const db = client.db("ReCall");
     const collection = db.collection(id);
     await client.connect();
 
@@ -44,122 +46,18 @@ app.get('/deck/:id', (req, res) => {
     res.status(200).json(Search);
   })();
 
-  const decks = {
-    deck1: [
-      {
-        title: 'Deck 1',
-        question: '1st Question of deck 1',
-        answer: '1st Answer of deck 1',
-      },
-      {
-        title: 'Deck 1',
-        question: '2st Question of deck 1',
-        answer: '2st Answer of deck 1',
-      },
-      {
-        title: 'Deck 1',
-        question: '3st Question of deck 1',
-        answer: '3st Answer of deck 1',
-      },
-      {
-        title: 'Deck 1',
-        question: '4st Question of deck 1',
-        answer: '4st Answer of deck 1',
-      },
-      {
-        title: 'Deck 1',
-        question: '5st Question of deck 1',
-        answer: '5st Answer of deck 1',
-      },
-      {
-        title: 'Deck 1',
-        question: '6st Question of deck 1',
-        answer: '6st Answer of deck 1',
-      },
-    ],
+  
+});
 
-    deck2: [
-      {
-        title: 'Deck 2',
-        question: '1st Question of deck 2',
-        answer: '1st Answer of deck 2',
-      },
-      {
-        title: 'Deck 2',
-        question: '2st Question of deck 2',
-        answer: '2st Answer of deck 2',
-      },
-      {
-        title: 'Deck 2',
-        question: '3st Question of deck 2',
-        answer: '3st Answer of deck 2',
-      },
-      {
-        title: 'Deck 2',
-        question: '4st Question of deck 2',
-        answer: '4st Answer of deck 2',
-      },
-      {
-        title: 'Deck 2',
-        question: '5st Question of deck 2',
-        answer: '5st Answer of deck 2',
-      },
-      {
-        title: 'Deck 2',
-        question: '6st Question of deck 2',
-        answer: '6st Answer of deck 2',
-      },
-    ],
+app.post("/newDeck", (req, res) => {
+  (async () => {
+    const db = client.db("ReCall");
+    const collection = db.collection(req.body.newDeck.name);
+    await client.connect();
 
-    deck3: [
-      {
-        title: 'Deck 3',
-        question: '1st Question of deck 3',
-        answer: '1st Answer of deck 3',
-      },
-      {
-        title: 'Deck 3',
-        question: '2st Question of deck 3',
-        answer: '2st Answer of deck 3',
-      },
-      {
-        title: 'Deck 3',
-        question: '3st Question of deck 3',
-        answer: '3st Answer of deck 3',
-      },
-      {
-        title: 'Deck 3',
-        question: '4st Question of deck 3',
-        answer: '4st Answer of deck 3',
-      },
-      {
-        title: 'Deck 3',
-        question: '5st Question of deck 3',
-        answer: '5st Answer of deck 3',
-      },
-      {
-        title: 'Deck 3',
-        question: '6st Question of deck 3',
-        answer: '6st Answer of deck 3',
-      },
-    ],
-  };
-
-  let response;
-
-  (() => {
-    if (id === 'usCities') {
-      response = decks.deck1;
-    }
-    if (id === 'animals') {
-      response = decks.deck2;
-    }
-    if (id === 'javascript') {
-      response = decks.deck3;
-    }
+    const Search = await collection.insertMany(req.body.newDeck.deckContents);
+    res.status(202).json("Post request received");
   })();
-
-  // res.status(200).json(response);
 });
 
 // Start Server

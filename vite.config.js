@@ -7,6 +7,7 @@ export default defineConfig({
     proxy: {
       '/deck': 'http://localhost:3000',
       '/deckList': 'http://localhost:3000',
+      '/newDeck': 'http://localhost:3000',
     },
   },
 });
