@@ -10,7 +10,14 @@ export default () => {
   const [deck, setDeck] = useState([]);
   const [cardIndex, setCardIndex] = useState(0);
   const [content, setContent] = useState(null);
-  const [decks, setDecks] = useState([1, 2, 3]);
+  const [decks, setDecks] = useState([]);
+
+
+const handleDeckChange = (deckId) => {
+  fetchData(deckId);
+};
+
+
 
   // Use Effect Hooks
   useEffect(() => {
@@ -22,8 +29,8 @@ export default () => {
   }, []);
 
   // Fetch Functions
-  const fetchData = async () => {
-    const response = await fetch('/deck/3');
+  const fetchData = async (deckId) => {
+    const response = await fetch(`/deck/${deckId}`);
     const result = await response.json();
     setDeck(result);
     setContent(result[0]);
@@ -60,7 +67,7 @@ export default () => {
   // Return
   return (
     <div id='app'>
-      <NavBar decks={decks}></NavBar>
+      <NavBar decks={decks} onDeckChange={handleDeckChange}></NavBar>
       <div className='cardArea'>
         <button onClick={prevCard}>ᐊ</button>
         {content &&
@@ -71,7 +78,7 @@ export default () => {
           ))}
         <button onClick={nextCard}>ᐅ</button>
       </div>
-      <button onClick={flipCard}>⇄</button>
+      <button onClick={flipCard}>↩</button>
     </div>
   );
 };

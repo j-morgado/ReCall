@@ -29,12 +29,20 @@ app.get('/deckList', (rq, res) => {
     });
 
     res.status(200).send(response);
-    console.log(response);
   })();
 });
 
 app.get('/deck/:id', (req, res) => {
-  let id = parseInt(req.params.id);
+  let id = req.params.id;
+
+  (async () => {
+    const db = client.db('ReCall');
+    const collection = db.collection(id);
+    await client.connect();
+
+    const Search = await collection.find().toArray();
+    res.status(200).json(Search);
+  })();
 
   const decks = {
     deck1: [
@@ -140,18 +148,18 @@ app.get('/deck/:id', (req, res) => {
   let response;
 
   (() => {
-    if (id === 1) {
+    if (id === 'usCities') {
       response = decks.deck1;
     }
-    if (id === 2) {
+    if (id === 'animals') {
       response = decks.deck2;
     }
-    if (id === 3) {
+    if (id === 'javascript') {
       response = decks.deck3;
     }
   })();
 
-  res.status(200).json(response);
+  // res.status(200).json(response);
 });
 
 // Start Server
