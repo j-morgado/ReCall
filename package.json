@@ -8,7 +8,7 @@
     "start": "node --watch server/server.js",
     "build": "vite build --watch",
     "dev": "vite",
-    "conc": "concurrently 'vite' 'node --watch server/server.js'"
+    "conc": "concurrently 'vite --host' 'node --watch server/server.js'"
   },
   "repository": {
     "type": "git",

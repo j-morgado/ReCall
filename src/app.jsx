@@ -1,8 +1,8 @@
 // Imports
-import { useEffect, useState } from 'react';
-import CardFront from './components/CardFront';
-import CardBack from './components/CardBack';
-import NavBar from './components/NavBar';
+import { useEffect, useState } from "react";
+import CardFront from "./components/CardFront";
+import CardBack from "./components/CardBack";
+import NavBar from "./components/NavBar";
 
 export default () => {
   // Use State Hooks
@@ -11,13 +11,11 @@ export default () => {
   const [cardIndex, setCardIndex] = useState(0);
   const [content, setContent] = useState(null);
   const [decks, setDecks] = useState([]);
+  const [deckName, setDeckName] = useState("");
 
-
-const handleDeckChange = (deckId) => {
-  fetchData(deckId);
-};
-
-
+  const handleDeckChange = (deckId) => {
+    fetchData(deckId);
+  };
 
   // Use Effect Hooks
   useEffect(() => {
@@ -29,15 +27,17 @@ const handleDeckChange = (deckId) => {
   }, []);
 
   // Fetch Functions
-  const fetchData = async (deckId) => {
+  const fetchData = async (deckId = "Cities") => {
     const response = await fetch(`/deck/${deckId}`);
     const result = await response.json();
     setDeck(result);
+    setDeckName(deckId);
+    setCardIndex(0);
     setContent(result[0]);
   };
 
   const fetchDecks = async () => {
-    const response = await fetch('/deckList');
+    const response = await fetch("/deckList");
     const result = await response.json();
     setDecks(result);
   };
@@ -66,19 +66,31 @@ const handleDeckChange = (deckId) => {
 
   // Return
   return (
-    <div id='app'>
+    <div id="app">
       <NavBar decks={decks} onDeckChange={handleDeckChange}></NavBar>
-      <div className='cardArea'>
-        <button onClick={prevCard}>ᐊ</button>
+      <div className="cardArea">
+        <div>
+          {cardIndex > 0 ? (
+            <button onClick={prevCard}>Previous</button>
+          ) : (
+            <button style={{ opacity: "0" }}>Previous</button>
+          )}
+        </div>
         {content &&
           (card ? (
-            <CardFront content={content} />
+            <CardFront content={content} deck={deck} cardIndex={cardIndex} deckName={deckName} />
           ) : (
-            <CardBack content={content} />
+            <CardBack content={content} deck={deck} cardIndex={cardIndex} deckName={deckName} />
           ))}
-        <button onClick={nextCard}>ᐅ</button>
+        <div>
+          {cardIndex < deck.length - 1 ? (
+            <button onClick={nextCard}>Next</button>
+          ) : (
+            <button style={{ opacity: "0" }}>Next</button>
+          )}
+        </div>
       </div>
-      <button onClick={flipCard}>↩</button>
+      <button onClick={flipCard}>Flip Flashcard</button>
     </div>
   );
 };
