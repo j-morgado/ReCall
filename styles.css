@@ -1,6 +1,50 @@
 html {
   font-family: sans-serif;
   background-color: #404e5c;
+  color: #404e5c;
+}
+
+body {
+  margin: 0px;
+  padding: 0rem 1rem;
+}
+
+nav {
+  background-color: #ef6f6c;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+img {
+  border-radius: 1rem;
+}
+
+button {
+  width: 5rem;
+  height: 5rem;
+  background-color: #fbbfca;
+  border: 1px solid #ef6f6c;
+  border-radius: 4rem;
+  padding: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ef6f6c;
+  cursor: pointer;
+}
+
+select {
+  appearance: none;
+  width: 200px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #404e5c;
+  border: none;
+  border-radius: 2rem;
+  color: #d6eadf;
+  cursor: pointer;
 }
 
 #app {
@@ -11,13 +55,8 @@ html {
   align-items: center;
 }
 
-img {
-  border-radius: 1rem;
-}
-
 .card {
   width: 40vw;
-  height: 50vh;
   background-color: #6699cc;
   padding: 1rem;
   border-radius: 1rem;
@@ -29,8 +68,11 @@ img {
   color: #d6eadf;
 }
 
-.cardArea{
-    width:100%;
-    display: flex;
-    justify-content: space-around;
+.cardArea {
+  width: 100%;
+  margin: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
